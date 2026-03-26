@@ -1,10 +1,10 @@
 def main():
     #numDataPoints:int = 0
-    masterFile = open("testData.txt")
-    accelFile = open("acceleration.txt", "w")
-    gyroFile = open("gyroscope.txt", "w")
-    barometerFile = open("barometer.txt", "w")
-    tempatureFile = open("tempature.txt", "w")
+    masterFile = open("./data/testing/testData.txt")
+    accelFile = open("./data/testing/acceleration.txt", "w")
+    gyroFile = open("./data/testing/gyroscope.txt", "w")
+    barometerFile = open("./data/testing/barometer.txt", "w")
+    tempatureFile = open("./data/testing/tempature.txt", "w")
 
     timeStamp:float
     data:float
