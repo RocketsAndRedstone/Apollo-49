@@ -21,23 +21,23 @@ def main():
                 barometerFile.write(f"{timeStamp}, ")
                 tempatureFile.write(f"{timeStamp}, ")
             case 1:
-                accelFile.write(f"{line[:-1]}; ")
+                accelFile.write(f"{line[:-1]}, ")
             case 2:
-                accelFile.write(f"{line[:-1]}: ")
+                accelFile.write(f"{line[:-1]}, ")
             case 3:
                 accelFile.write(f"{line[:-1]}")
             case 4:
-                gyroFile.write(f"{line[:-1]}; ")
+                gyroFile.write(f"{line[:-1]}, ")
             case 5:
-                gyroFile.write(f"{line[:-1]}: ")
+                gyroFile.write(f"{line[:-1]}, ")
             case 6:
                 gyroFile.write(f"{line[:-1]}")
             case 7:
-                barometerFile.write(f"{line[:-1]}; ")
+                barometerFile.write(f"{line[:-1]}, ")
             case 8:
                 barometerFile.write(f"{line[:-1]}")
             case 9:
-                tempatureFile.write(f"{line[:-1]}; ")
+                tempatureFile.write(f"{line[:-1]}, ")
             case 10:
                 tempatureFile.write(f"{line[:-1]}")
             case 11:
