@@ -19,22 +19,24 @@ def main():
 
     accelerationFile.close()
 
+    visualizeData(accel_X, accel_Y, accel_Z, "Acceleration")
+
     
 
-def visualizeAcceleration(accel_X:list[float], accel_Y:list[float], accel_Z:list[float]) -> None:
+def visualizeData(data_X:list[float], data_Y:list[float], data_Z:list[float], name:str) -> None:
     #creation of image
     figure = plot.figure()
     axis = figure.add_subplot(projection="3d")
 
     #set axis
-    axis.set_title("Acceleration")
-    axis.set(xlim3d= (min(accel_X), max(accel_X)), xlabel = "X")
-    axis.set(ylim3d= (min(accel_Y), max(accel_Y)), ylabel = "Y")
-    axis.set(zlim3d= (min(accel_Z), max(accel_Z)), zlabel = "Z")
+    axis.set_title(f"{name}")
+    axis.set(xlim3d= (min(data_X), max(data_X)), xlabel = "X")
+    axis.set(ylim3d= (min(data_Y), max(data_Y)), ylabel = "Y")
+    axis.set(zlim3d= (min(data_Z), max(data_Z)), zlabel = "Z")
 
-    axis.plot3D(accel_X, accel_Y, accel_Z, zdir="Y")
+    axis.plot3D(data_X, data_Y, data_Z)
 
-    plot.savefig("./media/testAcceleration.png")
+    plot.savefig(f"./media/test{name}.png")
 
     plot.show()
 
