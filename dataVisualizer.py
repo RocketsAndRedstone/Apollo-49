@@ -19,7 +19,12 @@ def main():
 
     accelerationFile.close()
 
+    velocity_X:list[float] = intergrate(time_stamp, accel_X)
+    velocity_Y:list[float] = intergrate(time_stamp, accel_Y)
+    velocity_Z:list[float] = intergrate(time_stamp, accel_Z)
+
     visualizeData(accel_X, accel_Y, accel_Z, "Acceleration")
+    visualizeData(velocity_X, velocity_Y, velocity_Z, "Velocity")
 
     
 
