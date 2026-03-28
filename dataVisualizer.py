@@ -30,6 +30,8 @@ def main():
 
     axis.plot3D(accel_X, accel_Y, accel_Z, zdir="Y")
 
+    plot.savefig("./media/testAcceleration.png")
+
     plot.show()
 
 if (__name__ == "__main__"):
