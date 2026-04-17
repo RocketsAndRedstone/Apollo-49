@@ -40,7 +40,7 @@ def main():
             case 10:
                 tempatureFile.write(f"{lineData}")
             case 11:
-                dataLine = 0
+                lineNumber = 0
                 accelFile.write("\n")
                 gyroFile.write("\n")
                 barometerFile.write("\n")
