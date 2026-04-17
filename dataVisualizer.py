@@ -19,12 +19,17 @@ def main():
 
     accelerationFile.close()
 
-    velocity_X:list[float] = intergrate(time_stamp, accel_X)
-    velocity_Y:list[float] = intergrate(time_stamp, accel_Y)
-    velocity_Z:list[float] = intergrate(time_stamp, accel_Z)
+    velocity_X:list[float] = intergrateVelocity(time_stamp, accel_X)
+    velocity_Y:list[float] = intergrateVelocity(time_stamp, accel_Y)
+    velocity_Z:list[float] = intergrateVelocity(time_stamp, accel_Z)
+
+    position_X:list[float] = intergratePosition(time_stamp, accel_X, velocity_X)
+    position_Y:list[float] = intergratePosition(time_stamp, accel_Y, velocity_Y)
+    position_Z:list[float] = intergratePosition(time_stamp, accel_Z, velocity_Z)
 
     visualizeData(accel_X, accel_Y, accel_Z, "Acceleration")
     visualizeData(velocity_X, velocity_Y, velocity_Z, "Velocity")
+    visualizeData(position_X, position_Y, position_Z, "Position")
 
     
 
@@ -45,15 +50,30 @@ def visualizeData(data_X:list[float], data_Y:list[float], data_Z:list[float], na
 
     plot.show()
 
-def intergrate(time_stamp:list[float], values:list[float]) -> list[float]:
+#v_f = v_i + (a * t)
+def intergrateVelocity(time_stamp:list[float], values:list[float]) -> list[float]:
     timeLast:float = time_stamp[0]
+    velocityLast:float = 0
     updatedValues:list[float] = []
     for t in range(1, len(time_stamp)):
         deltaTime = time_stamp[t] - timeLast
-        updatedValues.append(deltaTime * values[t-1])
+        velocityLast += deltaTime * values[t]
+        updatedValues.append(velocityLast)
         timeLast = time_stamp[t]
 
     return updatedValues
+
+#delta x = (v_i * t) + (0.5 * a * t^2)
+def intergratePosition(time_stamp:list[float], acceleration:list[float], velocity:list[float]) -> list[float]:
+    timeLast:float = time_stamp[0]
+    
+    newPositions:list[float] = []
+    for t in range(1, len(time_stamp)):
+        deltaTime = time_stamp[t] - timeLast
+        newPositions.append((velocity[t-1] * timeLast) + (0.5 * acceleration[t-1] * (deltaTime * deltaTime)))
+        timeLast = time_stamp[t]
+
+    return newPositions
 
 if (__name__ == "__main__"):
     main()
