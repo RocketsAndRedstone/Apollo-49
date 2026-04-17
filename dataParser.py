@@ -7,13 +7,12 @@ def main():
     tempatureFile = open("./data/testing/tempature.txt", "w")
 
     lineData:float
-    lineNumber:int = 0
+    lineIndex:int = 0
 
     
     for line in masterFile:
         lineData = line[:-1]
-        match lineNumber:
-
+        match lineIndex:
             case 0:
                 accelFile.write(f"{lineData}, ")
                 gyroFile.write(f"{lineData}, ")
@@ -40,14 +39,14 @@ def main():
             case 10:
                 tempatureFile.write(f"{lineData}")
             case 11:
-                lineNumber = 0
+                lineIndex = 0
                 accelFile.write("\n")
                 gyroFile.write("\n")
                 barometerFile.write("\n")
                 tempatureFile.write("\n")
                 continue
 
-        lineNumber += 1
+        lineIndex += 1
 
 
     masterFile.close()
