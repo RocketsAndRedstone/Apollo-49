@@ -1,14 +1,27 @@
-import numpy
 from matplotlib import animation, pyplot as plot
+from math import tan, arctan, pi
 
 
 def main():
+    #Open files
+    gyroscopeFile = open("./data/testing/gyroscope.txt")
     accelerationFile = open("./data/testing/acceleration.txt")
+
+    GRAVITY = 9.81
+
+    orientation:list[float] = [0, 0, 0] #yaw, pitch, roll in radian
+
     time_stamp:list[float] = []
+
+    gyro_X:list[float] = []
+    gyro_Y:list[float] = []
+    gyro_Z:list[float] = []    
+    
     accel_X:list[float] = []
     accel_Y:list[float] = []
     accel_Z:list[float] = []
-
+ 
+    #Read files and write to lists
     for line in accelerationFile:
         splitLine = line.split(",")
         #milliseconds to seconds
@@ -17,7 +30,20 @@ def main():
         accel_Y.append(float(splitLine[2][1:-1]))
         accel_Z.append(float(splitLine[3][1:-1]))
 
+    for line in gyroscopeFile:
+        splitLine = line.split(",")
+        gyro_X.append(float(splitLine[1][1:-1]))
+        gyro_Y.append(float(splitLine[1][1:-1]))
+        gyro_Z.append(float(splitLine[1][1:-1]))
+
+    #Close files
+    gyroscopeFile.close()
     accelerationFile.close()
+
+    #Determine inital orientation
+    orientation[0] = arctan(GRAVITY / accel_X)
+    orientation[1] = arctan(GRAVITY / accel_Y)
+    orientation[2] = arctan(GRAVITY / accel_Z)
 
     velocity_X:list[float] = intergrateVelocity(time_stamp, accel_X)
     velocity_Y:list[float] = intergrateVelocity(time_stamp, accel_Y)
@@ -30,6 +56,8 @@ def main():
     visualizeData(accel_X, accel_Y, accel_Z, "Acceleration")
     visualizeData(velocity_X, velocity_Y, velocity_Z, "Velocity")
     visualizeData(position_X, position_Y, position_Z, "Position")
+
+    
 
     
 
