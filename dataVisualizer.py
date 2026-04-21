@@ -46,9 +46,7 @@ def main():
     orientation[0].append(atan(GRAVITY / accel_Z[0]))
 
     orientation = calcOrientation(orientation, gyro_X, gyro_Y, gyro_Z, timeStamp)
-
-    print(orientation)
-
+    
     accel_X = removeGravity(gyro_X, accel_X, timeStamp)
     accel_Y = removeGravity(gyro_Y, accel_Y, timeStamp)
     accel_Z = removeGravity(gyro_Z, accel_Z, timeStamp)
