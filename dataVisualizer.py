@@ -9,10 +9,13 @@ def main():
     accelerationFile = open("./data/testing/acceleration.txt")
 
     timeStamp:list[float] = []
-
+    
+    #Yaw, pitch, roll
     gyro_X:list[float] = []
     gyro_Y:list[float] = []
-    gyro_Z:list[float] = []    
+    gyro_Z:list[float] = []
+
+    orientation:list[list[float]] = [[]]
     
     accel_X:list[float] = []
     accel_Y:list[float] = []
@@ -36,6 +39,15 @@ def main():
     #Close files
     gyroscopeFile.close()
     accelerationFile.close()
+
+    #Inital orientation
+    orientation[0].append(atan(GRAVITY / accel_X[0]))
+    orientation[0].append(atan(GRAVITY / accel_Y[0]))
+    orientation[0].append(atan(GRAVITY / accel_Z[0]))
+
+    orientation = calcOrientation(orientation, gyro_X, gyro_Y, gyro_Z, timeStamp)
+
+    print(orientation)
 
     accel_X = removeGravity(gyro_X, accel_X, timeStamp)
     accel_Y = removeGravity(gyro_Y, accel_Y, timeStamp)
@@ -103,15 +115,38 @@ def removeGravity(gyro:list[float], accel:list[float], timeStamp:list[float]):
     deltaTime:float = 0
     timeLast:float = timeStamp[0]
 
-    for i in range(1, len(accel)):
-        deltaTime = timeStamp[i] - timeLast
-        accel[i] = accel[i] - (GRAVITY / tan(theta))
-        theta += gyro[i] * deltaTime
+    for t in range(1, len(timeStamp)):
+        deltaTime = timeStamp[t] - timeLast
+        accel[t] = accel[t] - (GRAVITY / tan(theta))
+        theta += gyro[t] * deltaTime
         if (theta > tau or theta < -tau):
-            theta = theta % tau
-        timeLast = timeStamp[i]    
+            theta %= tau
+        timeLast = timeStamp[t]    
 
     return accel
+
+def calcOrientation(initalOrientation:list[list[float]], gyro_X:list[float], gyro_Y:list[float], gyro_Z:list[float], timeStamp:list[float]) -> list[list[float]]:
+
+    orientation:list[list[float]] = [[]]
+    deltaTime:float
+    timeLast:float = timeStamp[0]
+
+    orientation[0] = initalOrientation[0]
+
+    for t in range(1, len(timeStamp)):
+        deltaTime = timeStamp[t] - timeLast
+        orientation.append([])
+        orientation[t].append(orientation[t - 1][0] + ( gyro_X[t] * deltaTime))
+        orientation[t].append(orientation[t - 1][1] + ( gyro_Y[t] * deltaTime))
+        orientation[t].append(orientation[t - 1][2] + ( gyro_Z[t] * deltaTime))
+
+        for i in range(3):
+            if (orientation[t][i] > tau or orientation[t][i] < -tau):
+                orientation[t][i] %= tau
+
+        timeLast = timeStamp[t]
+
+    return orientation
 
 if (__name__ == "__main__"):
     main()
